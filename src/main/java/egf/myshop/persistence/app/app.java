@@ -121,9 +121,11 @@ public class app {
         try {
             int opcion = sc.nextInt();
             switch (opcion){
-                case 1: crearC();
+                case 1:
+                    System.out.println("En la proxima actualización");
                     break;
-                case 2: borrarClientAmp();
+                case 2:
+                    System.out.println("En la proxima actualización ");
                     break;
                 case 3:mostrarClientesAm();
                     break;
@@ -144,10 +146,10 @@ public class app {
         System.out.println("***************************************");
         System.out.println("Menu consultas categorias");
         System.out.println("1 Crear categoria");
-        System.out.println("3 Eliminar categoria(Esta opción borra los articulos que pertenecen a esa categoria)");
-        System.out.println("4 Editar categoria");
-        System.out.println("6 Ver todas las categorias");
-        System.out.println("7 Lista de articulos que pertenecen a esa categoria");
+        System.out.println("2 Eliminar categoria(Esta opción borra los articulos que pertenecen a esa categoria)");
+        System.out.println("3 Editar categoria");
+        System.out.println("4 Ver todas las categorias");
+        System.out.println("5 Lista de articulos que pertenecen a esa categoria");
         System.out.print("Que desea hacer: ");
         int opcion = sc.nextInt();
         switch (opcion){
@@ -156,10 +158,13 @@ public class app {
             case 2: borrarCat();
                 break;
             case 3:
-                System.out.println();;
+                System.out.println();
                 break;
             case 4:
-                System.out.println();;
+                mostrarCat();
+                break;
+            case 5:
+                mostArt();
                 break;
             default:
                 break;
@@ -223,6 +228,21 @@ public class app {
                 System.out.println("Error: " +e.getCode()+": "+e.getMessage());
             }
         }catch (Exception e){
+            System.err.println("Ha introducido un caracter no valido");
+        }
+    }
+
+    static void mostrarCat(){
+        articleDataService.mostrarTodasCat();
+    }
+
+    static void mostArt(){
+        sc.nextLine();
+        System.out.print("Escribe el id: ");
+        Long id = sc.nextLong();
+        if (id>=0){
+            articleDataService.listaArtCat(id);
+        }else{
             System.err.println("Ha introducido un caracter no valido");
         }
     }
