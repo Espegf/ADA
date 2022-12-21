@@ -1,5 +1,6 @@
 package egf.myshop.persistence.app;
 
+import egf.myshop.persistence.entity.Article;
 import egf.myshop.persistence.entity.Category;
 import egf.myshop.persistence.entity.Client;
 import egf.myshop.persistence.exception.ShopException;
@@ -7,6 +8,7 @@ import egf.myshop.persistence.service.ArticleDataService;
 import egf.myshop.persistence.service.PersonalDataService;
 import egf.myshop.persistence.util.HibernateUtil;
 
+import javax.swing.text.Document;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -158,7 +160,7 @@ public class app {
             case 2: borrarCat();
                 break;
             case 3:
-                System.out.println();
+                System.out.println("Proximamente");
                 break;
             case 4:
                 mostrarCat();
@@ -178,24 +180,26 @@ public class app {
         System.out.println("Menu consultas articulos");
         System.out.println("1 Crear articulo");
         System.out.println("2 Eliminar articulo");
-        System.out.println("4 Editar articulo");
-        System.out.println("5 Guardar articulo");
-        System.out.println("6 Ver todos los articulos");
-        System.out.println("7 Lista de clientes que han comprado ese articulo");
+        System.out.println("3 Editar articulo");
+        System.out.println("4 Ver todos los articulos");
+        System.out.println("5 Lista de clientes que han comprado ese articulo");
         System.out.print("Que desea hacer: ");
         int opcion = sc.nextInt();
-       /* switch (opcion){
-            case 1: crearT();
+        switch (opcion){
+            case 1: crearArt();
                 break;
-            case 2: borrarT();
+            case 2: borrarArt();
                 break;
-            case 3: mostratT();
+            case 3:
+                System.out.println("Proximamente");
                 break;
-            case 4: cambiarC(user);
+            case 4: mostrarArt();
+                break;
+            case 5: listClt();
                 break;
             default:
                 break;
-        }*/
+        }
     }
 
     //metodos de la clase categorias
@@ -241,7 +245,66 @@ public class app {
         System.out.print("Escribe el id: ");
         Long id = sc.nextLong();
         if (id>=0){
-            articleDataService.listaArtCat(id);
+            try {
+                articleDataService.listaArtCat(id);
+            } catch (ShopException e) {
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
+            }
+        }else{
+            System.err.println("Ha introducido un caracter no valido");
+        }
+    }
+
+    //metodos de la clase articulos
+    static void crearArt(){
+        sc.nextLine();
+        System.out.print("Escribe el nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Escribe el stock: ");
+        int stock = sc.nextInt();
+        System.out.print("Escribe un precio: ");
+        Double precio = sc.nextDouble();
+        Article article = new Article(nombre,stock, precio);
+        try {
+            if (articleDataService.findByName(nombre)==null){
+                articleDataService.crearArt(article);
+            }
+        } catch (ShopException e) {
+            System.out.println(e.getCode()+": "+e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void borrarArt(){
+        System.out.print("Inserte el id de el articulo que desea eliminar: ");
+        try {
+            long id = sc.nextLong();
+            System.out.println();
+            try {
+                articleDataService.eliminarC(id);
+            } catch (ShopException e) {
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
+            }
+        }catch (Exception e){
+            System.err.println("Ha introducido un caracter no valido");
+        }
+    }
+
+    static void mostrarArt(){
+        articleDataService.mostrarTodosArt();
+    }
+
+    static void listClt(){
+        sc.nextLine();
+        System.out.print("Escribe el id: ");
+        Long id = sc.nextLong();
+        if (id>=0){
+            try {
+                articleDataService.listaClientes(id);
+            } catch (ShopException e) {
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
+            }
         }else{
             System.err.println("Ha introducido un caracter no valido");
         }

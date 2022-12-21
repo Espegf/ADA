@@ -41,6 +41,12 @@ public class Article {
     public Article() {
     }
 
+    public Article(String name, int stock, double price) {
+        this.name = name;
+        this.stock = stock;
+        this.price = price;
+    }
+
     public Category getCategory() {
         return category;
     }
