@@ -7,10 +7,9 @@ import egf.myshop.persistence.util.HibernateUtil;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.*;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author espeg
@@ -36,9 +35,16 @@ public class PersonalDataService {
         }
     }
 
-    public Object findById(Long id){
+    public Optional findByIdClt(Long id){
         if (id > 0){
           return genericDAO.findById(id);
+        }else{
+            return null;
+        }
+    }
+    public Optional findByIdCltA(Long id){
+        if (id > 0){
+            return genericDAOCA.findById(id);
         }else{
             return null;
         }
@@ -123,29 +129,26 @@ public class PersonalDataService {
     //creacion
     public void crearClientAmp(ClientAmp client) throws ShopException {
         try {
-            if (client != null && client.getClient()!=null){
+            if (client != null){
                 try {
-                    genericDAO.findById(client.getClient().getId());
                     genericDAOCA.create(client);
                 }catch (NoResultException ex){
                     System.err.println("El id del cliente no existe");
                 }
             }else{
-                System.err.println("Informacion nula");
+                System.err.println("Informacion erronea");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new ShopException("Error al crear al clienteAmp",0002);
+            throw new ShopException("Error al crear al clienteAmp",0006);
         }
     }
     //eliminacion
     public void eliminarClientAmp(long client) throws ShopException {
         try {
-            if (!genericDAOCA.findById(client).isEmpty()) {
                 genericDAOCA.deleteById(client);
-            }
         } catch (Exception e) {
-            throw new ShopException("El clienteAmp a eliminar no existe",0003);
+            throw new ShopException("El clienteAmp a eliminar no existe",0007);
         }
     }
 

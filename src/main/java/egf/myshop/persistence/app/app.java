@@ -1,6 +1,5 @@
 package egf.myshop.persistence.app;
 
-import egf.myshop.persistence.entity.Article;
 import egf.myshop.persistence.entity.Category;
 import egf.myshop.persistence.entity.Client;
 import egf.myshop.persistence.exception.ShopException;
@@ -25,7 +24,7 @@ public class app {
         try {
             HibernateUtil.tryConexion();
         } catch (ShopException e) {
-            System.out.println("Error: " +e.getCode()+": "+e.getMenssage());
+            System.out.println("Error: " +e.getCode()+": "+e.getMessage());
             System.exit(0);
         }
 
@@ -38,8 +37,9 @@ public class app {
             System.out.println("***************************************");
             System.out.println("Menu Principal");
             System.out.println("1 Menu clientes");
-            System.out.println("2 Menu categorias");
-            System.out.println("3 Menu articulos");
+            System.out.println("2 Menu clientesAmp");
+            System.out.println("3 Menu categorias");
+            System.out.println("4 Menu articulos");
             System.out.println("***************************************");
             System.out.println();
             System.out.print("Que desea hacer: ");
@@ -51,12 +51,15 @@ public class app {
                         menuClientes();
                         break;
                     case 2:
-                        menuCategorias();
+                        menuClientesAmp();
                         break;
                     case 3:
-                        menuArticulos();
+                        menuCategorias();
                         break;
                     case 4:
+                        menuArticulos();
+                        break;
+                    case 5:
                         salir = true;
                         HibernateUtil.getSessionFactory().close();
                         break;
@@ -109,8 +112,8 @@ public class app {
     private static void menuClientesAmp(){
         System.out.println("***************************************");
         System.out.println("Menu consultas clientesAmp");
-        System.out.println("1 Crear clienteAmp");
-        System.out.println("2 Eliminar clienteAmp");
+        System.out.println("1 Crear clienteAmp no  va");
+        System.out.println("2 Eliminar clienteAmp no va");
         System.out.println("3 Mostrar todos los clientesAmp");
         System.out.println("4 Mostrar un clienteAmp");
         System.out.println("***************************************");
@@ -120,11 +123,11 @@ public class app {
             switch (opcion){
                 case 1: crearC();
                     break;
-                case 2: borrarC();
+                case 2: borrarClientAmp();
                     break;
-                case 3:mostrarClientes();
+                case 3:mostrarClientesAm();
                     break;
-                case 4:mostrarCliente();
+                case 4:mostrarClienteA();
                     break;
                 default:
                     break;
@@ -141,26 +144,26 @@ public class app {
         System.out.println("***************************************");
         System.out.println("Menu consultas categorias");
         System.out.println("1 Crear categoria");
-        System.out.println("2 Eliminar categoria(Esta opción NO es valida si existen articulos en esa categoria)");
         System.out.println("3 Eliminar categoria(Esta opción borra los articulos que pertenecen a esa categoria)");
         System.out.println("4 Editar categoria");
-        System.out.println("5 Guardar categoria");
         System.out.println("6 Ver todas las categorias");
         System.out.println("7 Lista de articulos que pertenecen a esa categoria");
         System.out.print("Que desea hacer: ");
         int opcion = sc.nextInt();
-       /* switch (opcion){
-            case 1: crearT();
+        switch (opcion){
+            case 1: crearCat();
                 break;
-            case 2: borrarT();
+            case 2: borrarCat();
                 break;
-            case 3: mostratT();
+            case 3:
+                System.out.println();;
                 break;
-            case 4: cambiarC(user);
+            case 4:
+                System.out.println();;
                 break;
             default:
                 break;
-        }*/
+        }
     }
 
     //Menu de la tabla articulos
@@ -203,33 +206,25 @@ public class app {
                 articleDataService.crearCat(category);
             }
         } catch (ShopException e) {
-            System.out.println(e.getCode()+": "+e.getMenssage());
+            System.out.println(e.getCode()+": "+e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     static void borrarCat(){
-        System.out.print("Inserte el id del cliente que desea eliminar: ");
+        System.out.print("Inserte el id de la categoria que desea eliminar: ");
         try {
             long id = sc.nextLong();
             System.out.println();
             try {
-                personalDataService.eliminarC(id);
+                articleDataService.eliminarC(id);
             } catch (ShopException e) {
-                System.out.println("Error: " +e.getCode()+": "+e.getMenssage());
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
             }
         }catch (Exception e){
             System.err.println("Ha introducido un caracter no valido");
         }
-    }
-
-    static void saveCat(){}
-
-    static void mostrarCategorias(){
-        System.out.println("Lista de categorias:");
-        System.out.println("*************************************");
-        personalDataService.mostrarClientes();
     }
 
     //metodos de la clase clientes
@@ -245,7 +240,7 @@ public class app {
                 personalDataService.findByName(nombre);
                 personalDataService.crearC(client);
             } catch (ShopException e) {
-                System.out.println(e.getCode()+": "+e.getMenssage());
+                System.out.println(e.getCode()+": "+e.getMessage());
             }
         }else {
             System.err.println("Nombre no introducido");
@@ -261,7 +256,7 @@ public class app {
             try {
                 personalDataService.eliminarC(id);
             } catch (ShopException e) {
-                System.out.println("Error: " +e.getCode()+": "+e.getMenssage());
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
             }
         }catch (Exception e){
             System.err.println("Ha introducido un caracter no valido");
@@ -272,7 +267,7 @@ public class app {
         sc.nextLine();
         System.out.print("Inserte el id del cliente que desea ver: ");
         long id = sc.nextLong();
-        System.out.println(personalDataService.findById(id));
+        System.out.println(personalDataService.findByIdClt(id));
     }
     static void mostrarClientes(){
         System.out.println("Lista de clientes:");
@@ -285,7 +280,7 @@ public class app {
              long id = sc.nextLong();
              System.out.println();
         System.out.print("El cliente: ");
-        System.out.println(personalDataService.findById(id));
+        System.out.println(personalDataService.findByIdClt(id));
         personalDataService.mostrarClienteAmp(id);
     }
 
@@ -296,4 +291,56 @@ public class app {
         System.out.println();
         personalDataService.mostrarArticulosDeUnCliente(id);
     }
+
+    //metodos de la clase clientes
+  /*  static void crearClientAmp(){
+        sc.nextLine();
+        System.out.print("Escribe la direccion: ");
+        String dir = sc.nextLine();
+        System.out.print("Escribe el telefono: ");
+        String tlf = sc.nextLine();
+        System.out.print("Escribe el nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Escribe el id del cliente: ");
+        Long id = sc.nextLong();
+        try {
+           Client c = (Client) personalDataService.findById(id);
+            ClientAmp client = new ClientAmp(dir,tlf,nombre,c);
+        }catch (Exception e){
+            System.err.println("No existe el cliente con esa id");
+        }
+        try {
+            personalDataService.findByName(nombre);
+            personalDataService.crearClientAmp(client);
+        } catch (ShopException e) {
+            System.out.println(e.getCode()+": "+e.getMenssage());
+        }
+    }*/
+
+    static void borrarClientAmp(){
+        sc.nextLine();
+        System.out.print("Inserte el id del clienteAMp que desea eliminar: ");
+        try {
+            long id = sc.nextLong();
+            System.out.println();
+            try {
+                personalDataService.eliminarClientAmp(id);
+            } catch (ShopException e) {
+                System.out.println("Error: " +e.getCode()+": "+e.getMessage());
+            }
+        }catch (Exception e){
+            System.err.println("Ha introducido un caracter no valido");
+        }
+    }
+    static void mostrarClienteA(){
+        sc.nextLine();
+        System.out.print("Inserte el id del cliente que desea ver: ");
+        long id = sc.nextLong();
+        System.out.println(personalDataService.findByIdCltA(id));
+    }
+    static void mostrarClientesAm(){
+        personalDataService.mostrarClientesAmp();
+    }
+
+
 }

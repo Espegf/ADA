@@ -4,16 +4,16 @@ package egf.myshop.persistence.exception;
  * @author espeg
  */
 public class ShopException extends Exception {
-    private String menssage;
+    private String message;
     private int code;
 
-    public ShopException(String menssage, int code) {
-        this.menssage = menssage;
+    public ShopException(String message, int code) {
+        this.message = message;
         this.code = code;
     }
 
-    public String getMenssage() {
-        return menssage;
+    public String getMessage() {
+        return message;
     }
 
     public int getCode() {

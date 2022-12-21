@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author espeg
@@ -18,6 +19,11 @@ import java.util.List;
 public class CategoryDAOImpl extends GenericDAOImpl<Category> implements CategoryDAO{
     public CategoryDAOImpl() {
         super(Category.class);
+    }
+
+    @Override
+    public Optional<Category> findById(Long id) {
+        return super.findById(id);
     }
 
     @Override

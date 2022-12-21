@@ -12,6 +12,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 
+import java.util.Optional;
+
 /**
  * @author espeg
  */
@@ -19,6 +21,11 @@ public class ClientDAOImpl extends GenericDAOImpl<Client> implements ClientDAO {
 
     public ClientDAOImpl() {
         super(Client.class);
+    }
+
+    @Override
+    public Optional<Client> findById(Long id) {
+        return super.findById(id);
     }
 
     @Override

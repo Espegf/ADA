@@ -29,6 +29,13 @@ public class ClientAmp {
     public ClientAmp() {
     }
 
+    public ClientAmp(String address, String numberPhone, String fullName, Client client) {
+        this.address = address;
+        this.numberPhone = numberPhone;
+        this.fullName = fullName;
+        this.client = client;
+    }
+
     public Long getId() {
         return id;
     }

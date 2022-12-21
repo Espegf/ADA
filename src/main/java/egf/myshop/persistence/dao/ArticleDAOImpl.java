@@ -11,6 +11,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 
+import java.util.Optional;
+
 /**
  * @author espeg
  */
@@ -19,6 +21,11 @@ public class ArticleDAOImpl extends GenericDAOImpl<Article> implements ArticleDA
 
     public ArticleDAOImpl() {
         super(Article.class);
+    }
+
+    @Override
+    public Optional<Article> findById(Long id) {
+        return super.findById(id);
     }
 
     @Override

@@ -5,6 +5,8 @@ import egf.myshop.persistence.entity.*;
 import egf.myshop.persistence.entity.Category;
 import egf.myshop.persistence.exception.ShopException;
 
+import java.util.Optional;
+
 /**
  * @author espeg
  */
@@ -28,6 +30,9 @@ public class ArticleDataService {
         return categoryDAO.findByName(name);
     }
 
+    public Optional<Category> findByIdCat(Long id){
+       return genericDAO.findById(id);
+    }
     //Creacion, modificacion, guardado y eliminación
     //creacion
     public void crearCat(Category categoria) throws ShopException {
@@ -36,7 +41,7 @@ public class ArticleDataService {
                 genericDAO.create(categoria);
             }
         } catch (Exception e) {
-            throw new ShopException("Error al crear al categoria",0002);
+            throw new ShopException("Error al crear al categoria",0012);
         }
     }
     //eliminacion
@@ -46,7 +51,7 @@ public class ArticleDataService {
                 genericDAO.deleteById(categoria);
             }
         } catch (Exception e) {
-            throw new ShopException("El categoria a eliminar no existe",0003);
+            throw new ShopException("El categoria a eliminar no existe",0013);
         }
     }
 
